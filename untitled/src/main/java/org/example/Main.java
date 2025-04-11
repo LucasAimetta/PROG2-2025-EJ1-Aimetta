@@ -1,9 +1,6 @@
 package org.example;
 
-import org.example.dto.CajaDeAhorro;
-import org.example.dto.CajaDeAhorroBuilder;
-import org.example.dto.CuentaCorriente;
-import org.example.dto.CuentaCorrienteBuilder;
+import org.example.dto.*;
 import org.example.services.LogicaCuenta;
 
 import java.util.Random;
@@ -40,29 +37,34 @@ Crea 10 elementos de manera aleatoria de ambos tipos de cuenta.
             }
         }
 
-        ExecutorService executorService = Executors.newFixedThreadPool(10000);
+        ExecutorService executorService = Executors.newFixedThreadPool(100);
         executorService.execute(()->{
 
             int numeroCuenta = random.nextInt(0,9);
             int accion = random.nextInt(1,3);
+            Resultado resultado = new Resultado();
 
             switch (accion){
 
                 case 1:
                     double montoAgregar = random.nextDouble(10000,100000);
-                    logicaCuenta.agregarSaldo(numeroCuenta,montoAgregar);
+                    resultado = logicaCuenta.agregarSaldo(numeroCuenta,montoAgregar);
+                   System.out.println(resultado.getMessage());
                     break;
                 case 2:
                     double montoResta = random.nextDouble(10000,100000);
-                    logicaCuenta.quitarSaldo(numeroCuenta,montoResta);
+                     resultado = logicaCuenta.quitarSaldo(numeroCuenta,montoResta);
+                    System.out.println(resultado.getMessage());
                     break;
                 case 3:
-                    logicaCuenta.consultarSaldo(numeroCuenta);
+                    System.out.println(" El monto de la cuenta es de "+ logicaCuenta.consultarSaldo(numeroCuenta));
+
+                    break;
             }
 
 
         });
-
+executorService.shutdown();
 
     }
 }
