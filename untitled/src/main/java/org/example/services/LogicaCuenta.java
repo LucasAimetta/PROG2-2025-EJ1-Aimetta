@@ -55,6 +55,15 @@ public class LogicaCuenta {
         return cuentas.get(cuenta).getSaldo();
     };
 
+    public  int consultarOperaciones(int cuenta){
+        if(cuentas.get(cuenta) == null){
+
+           System.out.println("No se encontro la cuenta");
+            return 0;
+        }
+        return cuentas.get(cuenta).getOperaciones();
+    };
+
     public void agregarCuentas(IGestionSaldo cuenta){
         cuentas.add(cuenta);
     }

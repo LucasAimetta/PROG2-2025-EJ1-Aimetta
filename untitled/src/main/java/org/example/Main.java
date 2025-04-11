@@ -6,6 +6,7 @@ import org.example.services.LogicaCuenta;
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -37,34 +38,44 @@ Crea 10 elementos de manera aleatoria de ambos tipos de cuenta.
             }
         }
 
-        ExecutorService executorService = Executors.newFixedThreadPool(100);
-        executorService.execute(()->{
+        ExecutorService executorService = Executors.newFixedThreadPool(10);
 
-            int numeroCuenta = random.nextInt(0,9);
-            int accion = random.nextInt(1,3);
-            Resultado resultado = new Resultado();
+        for(int x = 0; x<10000;x++) {
+            executorService.execute(() -> {
 
-            switch (accion){
+                int numeroCuenta = random.nextInt(0, 10);
+                int accion = random.nextInt(1, 4);
+                Resultado resultado = new Resultado();
 
-                case 1:
-                    double montoAgregar = random.nextDouble(10000,100000);
-                    resultado = logicaCuenta.agregarSaldo(numeroCuenta,montoAgregar);
-                   System.out.println(resultado.getMessage());
-                    break;
-                case 2:
-                    double montoResta = random.nextDouble(10000,100000);
-                     resultado = logicaCuenta.quitarSaldo(numeroCuenta,montoResta);
-                    System.out.println(resultado.getMessage());
-                    break;
-                case 3:
-                    System.out.println(" El monto de la cuenta es de "+ logicaCuenta.consultarSaldo(numeroCuenta));
+                switch (accion) {
 
-                    break;
-            }
+                    case 1:
+                        double montoAgregar = random.nextDouble(1000, 5000);
+                        resultado = logicaCuenta.agregarSaldo(numeroCuenta, montoAgregar);
+                        System.out.println(resultado.getMessage());
+                        break;
+                    case 2:
+                        double montoResta = random.nextDouble(400, 800);
+                        resultado = logicaCuenta.quitarSaldo(numeroCuenta, montoResta);
+                        System.out.println(resultado.getMessage());
+                        break;
+                    case 3:
+                        System.out.println(" El monto de la cuenta es de " + logicaCuenta.consultarSaldo(numeroCuenta));
+
+                        break;
+                }
 
 
-        });
-executorService.shutdown();
+            });}
+        executorService.shutdown();
+        while (!executorService.isTerminated()) {
+
+        }
+
+        System.out.println("Resumen final de cuentas:");
+        for (int i = 0; i < 10; i++) {
+            System.out.println("La cuenta " + i + " tiene un Saldo de $" + logicaCuenta.consultarSaldo(i) + "y ha realizado :"+ logicaCuenta.consultarOperaciones(i)+ " Operaciones "  );
+        }
 
     }
-}
+    }

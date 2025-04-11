@@ -5,11 +5,11 @@ public class Resultado {
     public String message;
 
     public void setMessage(String message) {
-        message = message;
+        this.message = message;
     }
 
     public void setSuccess(boolean success) {
-        success = success;
+        this.success = success;
     }
 
     public String getMessage() {

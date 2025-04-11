@@ -39,6 +39,7 @@ public class CuentaCorriente extends  Cuenta implements IGestionSaldo{
 
     @Override
     public synchronized Double getSaldo() {
+        cantidadOperaciones++;
         return saldo;
     }
 

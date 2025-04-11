@@ -5,7 +5,7 @@ int id;
 Double giroDescubierto;
 
     public void setGiroDescubierto(Double giroDescubierto) {
-        giroDescubierto = giroDescubierto;
+        this.giroDescubierto = giroDescubierto;
     }
 
     @Override
